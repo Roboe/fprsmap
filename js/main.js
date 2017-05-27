@@ -162,6 +162,17 @@
     map.on('mousedown', onMousedown);
     map.on('mouseout', onMouseout);
   }
+  map.on('popupopen', function(event) {
+    map.setView(event.popup.getLatLng(), 8, { animate: true });
+  });
+  var latestZoomLevel = 2;
+  map.on('zoomstart', function(event) {
+    console.log(map.getZoom());
+    latestZoomLevel = map.getZoom();
+  });
+  map.on('popupclose', function(event) {
+    map.setZoom(latestZoomLevel, { animate: true });
+  });
 
   // Populate Fairphoners Groups overlay
   fetchJSON('data/communities.json')
